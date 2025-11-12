@@ -1,0 +1,394 @@
+basePath: /v1
+definitions:
+  article.ArticleData:
+    properties:
+      _id:
+        type: string
+      description:
+        type: string
+      enabled:
+        type: boolean
+      image:
+        type: string
+      name:
+        type: string
+      price:
+        type: number
+      stock:
+        type: integer
+    type: object
+  article.UpdateArticleData:
+    properties:
+      description:
+        maxLength: 256
+        minLength: 1
+        type: string
+      image:
+        maxLength: 100
+        type: string
+      name:
+        maxLength: 100
+        minLength: 1
+        type: string
+      price:
+        minimum: 1
+        type: number
+      stock:
+        minimum: 1
+        type: integer
+    required:
+    - description
+    - name
+    - price
+    - stock
+    type: object
+  errs.ValidationErr:
+    properties:
+      messages:
+        items:
+          $ref: '#/definitions/errs.errField'
+        type: array
+    type: object
+  errs.errField:
+    properties:
+      message:
+        type: string
+      path:
+        type: string
+    type: object
+  rbt.InputMessage-string:
+    properties:
+      correlation_id:
+        example: "123123"
+        type: string
+      exchange:
+        example: Remote Exchange to Reply
+        type: string
+      message:
+        type: string
+      routing_key:
+        example: Remote RoutingKey to Reply
+        type: string
+    type: object
+  rschema.ConsumeArticleExist:
+    properties:
+      correlation_id:
+        example: "123123"
+        type: string
+      exchange:
+        example: Remote Exchange to Reply
+        type: string
+      message:
+        $ref: '#/definitions/rschema.ConsumeArticleExistMessage'
+      routing_key:
+        example: Remote RoutingKey to Reply
+        type: string
+    type: object
+  rschema.ConsumeArticleExistMessage:
+    properties:
+      articleId:
+        example: ArticleId
+        type: string
+      referenceId:
+        example: Remote Reference Object Id
+        type: string
+    type: object
+  rschema.ConsumeOrderPlacedArticle:
+    properties:
+      articleId:
+        type: string
+      quantity:
+        type: integer
+    type: object
+  rschema.ConsumeOrderPlacedMessage:
+    properties:
+      articles:
+        items:
+          $ref: '#/definitions/rschema.ConsumeOrderPlacedArticle'
+        type: array
+      cartId:
+        type: string
+      orderId:
+        type: string
+    type: object
+  rst.ErrorData:
+    properties:
+      error:
+        type: string
+    type: object
+host: localhost:3002
+info:
+  contact:
+    email: nmarsollier@gmail.com
+    name: Nestor Marsollier
+  description: Microservicio de Catalogo.
+  title: CatalogGo
+  version: "1.0"
+paths:
+  /articles:
+    post:
+      consumes:
+      - application/json
+      description: Crear Artículo
+      parameters:
+      - description: Bearer {token}
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Informacion del articulo
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/article.UpdateArticleData'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Articulo
+          schema:
+            $ref: '#/definitions/article.ArticleData'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errs.ValidationErr'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/rst.ErrorData'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/rst.ErrorData'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/rst.ErrorData'
+      summary: Crear Artículo
+      tags:
+      - Catalogo
+  /articles/:articleId:
+    delete:
+      consumes:
+      - application/json
+      description: Eliminar Artículo
+      parameters:
+      - description: Bearer {token}
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: ID de articlo
+        in: path
+        name: articleId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: No Content
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errs.ValidationErr'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/rst.ErrorData'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/rst.ErrorData'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/rst.ErrorData'
+      summary: Eliminar Artículo
+      tags:
+      - Catalogo
+    get:
+      consumes:
+      - application/json
+      description: Obtener un articulo
+      parameters:
+      - description: Bearer {token}
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: ID de articlo
+        in: path
+        name: articleId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Articulo
+          schema:
+            $ref: '#/definitions/article.ArticleData'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errs.ValidationErr'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/rst.ErrorData'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/rst.ErrorData'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/rst.ErrorData'
+      summary: Obtener un articulo
+      tags:
+      - Catalogo
+    post:
+      consumes:
+      - application/json
+      description: Actualizar Artículo
+      parameters:
+      - description: Bearer {token}
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Informacion del articulo
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/article.UpdateArticleData'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Articulo
+          schema:
+            $ref: '#/definitions/article.ArticleData'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errs.ValidationErr'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/rst.ErrorData'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/rst.ErrorData'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/rst.ErrorData'
+      summary: Actualizar Artículo
+      tags:
+      - Catalogo
+  /articles/search/:criteria:
+    get:
+      consumes:
+      - application/json
+      description: Obtener un articulo
+      parameters:
+      - description: Bearer {token}
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: ID de articlo
+        in: path
+        name: articleId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Articulos
+          schema:
+            items:
+              $ref: '#/definitions/article.ArticleData'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errs.ValidationErr'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/rst.ErrorData'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/rst.ErrorData'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/rst.ErrorData'
+      summary: Obtener un articulo
+      tags:
+      - Catalogo
+  /rabbit/article_exist:
+    get:
+      consumes:
+      - application/json
+      description: Otros microservicios nos solicitan validar articulos en el catalogo.
+      parameters:
+      - description: Message para article_exist
+        in: body
+        name: article_exist
+        required: true
+        schema:
+          $ref: '#/definitions/rschema.ConsumeArticleExist'
+      produces:
+      - application/json
+      responses: {}
+      summary: Mensage Rabbit article_exist/article_exist
+      tags:
+      - Rabbit
+  /rabbit/logout:
+    get:
+      consumes:
+      - application/json
+      description: Escucha de mensajes logout desde auth.
+      parameters:
+      - description: Estructura general del mensage
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/rbt.InputMessage-string'
+      produces:
+      - application/json
+      responses: {}
+      summary: Mensage Rabbit logout
+      tags:
+      - Rabbit
+  /rabbit/order_placed:
+    get:
+      consumes:
+      - application/json
+      description: Cuando se recibe el mensage order_placed damos de baja al stock
+        para reservar los articulos. Queda pendiente enviar mensaje confirmando la
+        operacion al MS de Orders.
+      parameters:
+      - description: Message order_placed
+        in: body
+        name: order_placed
+        required: true
+        schema:
+          $ref: '#/definitions/rschema.ConsumeOrderPlacedMessage'
+      produces:
+      - application/json
+      responses: {}
+      summary: Mensage Rabbit order_placed/order_placed
+      tags:
+      - Rabbit
+swagger: "2.0"

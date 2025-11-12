@@ -1,0 +1,28 @@
+type Article @key(fields: "id") {
+  id: String!
+  name: String!
+  description: String!
+  image: String!
+  price: Float!
+  stock: Int!
+}
+
+input UpdateArticle {
+  id: String!
+  name: String!
+  description: String!
+  image: String!
+  price: Float!
+  stock: Int!
+}
+
+type Query {
+  getArticle(id: String!): Article!
+  searchArticles(criteria: String!): [Article]!
+}
+
+type Mutation {
+  deleteArticle(id: String!): Boolean!
+  createArticle(input: UpdateArticle!): Boolean!
+  updateArticle(input: UpdateArticle!): Boolean!
+}

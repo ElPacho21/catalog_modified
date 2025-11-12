@@ -1,0 +1,584 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "Microservicio de Catalogo.",
+        "title": "CatalogGo",
+        "contact": {
+            "name": "Nestor Marsollier",
+            "email": "nmarsollier@gmail.com"
+        },
+        "version": "1.0"
+    },
+    "host": "localhost:3002",
+    "basePath": "/v1",
+    "paths": {
+        "/articles": {
+            "post": {
+                "description": "Crear Artículo",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Catalogo"
+                ],
+                "summary": "Crear Artículo",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Bearer {token}",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "description": "Informacion del articulo",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/article.UpdateArticleData"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Articulo",
+                        "schema": {
+                            "$ref": "#/definitions/article.ArticleData"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/errs.ValidationErr"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/rst.ErrorData"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/rst.ErrorData"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/rst.ErrorData"
+                        }
+                    }
+                }
+            }
+        },
+        "/articles/:articleId": {
+            "get": {
+                "description": "Obtener un articulo",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Catalogo"
+                ],
+                "summary": "Obtener un articulo",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Bearer {token}",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "ID de articlo",
+                        "name": "articleId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Articulo",
+                        "schema": {
+                            "$ref": "#/definitions/article.ArticleData"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/errs.ValidationErr"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/rst.ErrorData"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/rst.ErrorData"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/rst.ErrorData"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Actualizar Artículo",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Catalogo"
+                ],
+                "summary": "Actualizar Artículo",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Bearer {token}",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "description": "Informacion del articulo",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/article.UpdateArticleData"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Articulo",
+                        "schema": {
+                            "$ref": "#/definitions/article.ArticleData"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/errs.ValidationErr"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/rst.ErrorData"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/rst.ErrorData"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/rst.ErrorData"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Eliminar Artículo",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Catalogo"
+                ],
+                "summary": "Eliminar Artículo",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Bearer {token}",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "ID de articlo",
+                        "name": "articleId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "No Content"
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/errs.ValidationErr"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/rst.ErrorData"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/rst.ErrorData"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/rst.ErrorData"
+                        }
+                    }
+                }
+            }
+        },
+        "/articles/search/:criteria": {
+            "get": {
+                "description": "Obtener un articulo",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Catalogo"
+                ],
+                "summary": "Obtener un articulo",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Bearer {token}",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "ID de articlo",
+                        "name": "articleId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Articulos",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/article.ArticleData"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/errs.ValidationErr"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/rst.ErrorData"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/rst.ErrorData"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/rst.ErrorData"
+                        }
+                    }
+                }
+            }
+        },
+        "/rabbit/article_exist": {
+            "get": {
+                "description": "Otros microservicios nos solicitan validar articulos en el catalogo.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Rabbit"
+                ],
+                "summary": "Mensage Rabbit article_exist/article_exist",
+                "parameters": [
+                    {
+                        "description": "Message para article_exist",
+                        "name": "article_exist",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/rschema.ConsumeArticleExist"
+                        }
+                    }
+                ],
+                "responses": {}
+            }
+        },
+        "/rabbit/logout": {
+            "get": {
+                "description": "Escucha de mensajes logout desde auth.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Rabbit"
+                ],
+                "summary": "Mensage Rabbit logout",
+                "parameters": [
+                    {
+                        "description": "Estructura general del mensage",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/rbt.InputMessage-string"
+                        }
+                    }
+                ],
+                "responses": {}
+            }
+        },
+        "/rabbit/order_placed": {
+            "get": {
+                "description": "Cuando se recibe el mensage order_placed damos de baja al stock para reservar los articulos. Queda pendiente enviar mensaje confirmando la operacion al MS de Orders.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Rabbit"
+                ],
+                "summary": "Mensage Rabbit order_placed/order_placed",
+                "parameters": [
+                    {
+                        "description": "Message order_placed",
+                        "name": "order_placed",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/rschema.ConsumeOrderPlacedMessage"
+                        }
+                    }
+                ],
+                "responses": {}
+            }
+        }
+    },
+    "definitions": {
+        "article.ArticleData": {
+            "type": "object",
+            "properties": {
+                "_id": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "enabled": {
+                    "type": "boolean"
+                },
+                "image": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "price": {
+                    "type": "number"
+                },
+                "stock": {
+                    "type": "integer"
+                }
+            }
+        },
+        "article.UpdateArticleData": {
+            "type": "object",
+            "required": [
+                "description",
+                "name",
+                "price",
+                "stock"
+            ],
+            "properties": {
+                "description": {
+                    "type": "string",
+                    "maxLength": 256,
+                    "minLength": 1
+                },
+                "image": {
+                    "type": "string",
+                    "maxLength": 100
+                },
+                "name": {
+                    "type": "string",
+                    "maxLength": 100,
+                    "minLength": 1
+                },
+                "price": {
+                    "type": "number",
+                    "minimum": 1
+                },
+                "stock": {
+                    "type": "integer",
+                    "minimum": 1
+                }
+            }
+        },
+        "errs.ValidationErr": {
+            "type": "object",
+            "properties": {
+                "messages": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/errs.errField"
+                    }
+                }
+            }
+        },
+        "errs.errField": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string"
+                },
+                "path": {
+                    "type": "string"
+                }
+            }
+        },
+        "rbt.InputMessage-string": {
+            "type": "object",
+            "properties": {
+                "correlation_id": {
+                    "type": "string",
+                    "example": "123123"
+                },
+                "exchange": {
+                    "type": "string",
+                    "example": "Remote Exchange to Reply"
+                },
+                "message": {
+                    "type": "string"
+                },
+                "routing_key": {
+                    "type": "string",
+                    "example": "Remote RoutingKey to Reply"
+                }
+            }
+        },
+        "rschema.ConsumeArticleExist": {
+            "type": "object",
+            "properties": {
+                "correlation_id": {
+                    "type": "string",
+                    "example": "123123"
+                },
+                "exchange": {
+                    "type": "string",
+                    "example": "Remote Exchange to Reply"
+                },
+                "message": {
+                    "$ref": "#/definitions/rschema.ConsumeArticleExistMessage"
+                },
+                "routing_key": {
+                    "type": "string",
+                    "example": "Remote RoutingKey to Reply"
+                }
+            }
+        },
+        "rschema.ConsumeArticleExistMessage": {
+            "type": "object",
+            "properties": {
+                "articleId": {
+                    "type": "string",
+                    "example": "ArticleId"
+                },
+                "referenceId": {
+                    "type": "string",
+                    "example": "Remote Reference Object Id"
+                }
+            }
+        },
+        "rschema.ConsumeOrderPlacedArticle": {
+            "type": "object",
+            "properties": {
+                "articleId": {
+                    "type": "string"
+                },
+                "quantity": {
+                    "type": "integer"
+                }
+            }
+        },
+        "rschema.ConsumeOrderPlacedMessage": {
+            "type": "object",
+            "properties": {
+                "articles": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/rschema.ConsumeOrderPlacedArticle"
+                    }
+                },
+                "cartId": {
+                    "type": "string"
+                },
+                "orderId": {
+                    "type": "string"
+                }
+            }
+        },
+        "rst.ErrorData": {
+            "type": "object",
+            "properties": {
+                "error": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}
