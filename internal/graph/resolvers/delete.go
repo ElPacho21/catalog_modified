@@ -21,8 +21,6 @@ func DeleteArticle(ctx context.Context, articleId string) (bool, error) {
 		return false, err
 	}
 
-	// Notify other services (e.g., Questions) that this article was deleted
-	// Exchange: "article_deleted" (fanout)
 	_ = rbtpub.PublishArticleDeleted(
 		env.Logger(),
 		&rschema.ArticleDeletedMessage{ArticleId: articleId},

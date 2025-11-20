@@ -9,8 +9,6 @@ import (
 	amqp "github.com/streadway/amqp"
 )
 
-// PublishArticleDeleted emits a fanout event to the durable exchange "article_deleted"
-// with payload { type: "ARTICLE_DELETED", articleId }.
 func PublishArticleDeleted(logger log.LogRusEntry, msg *rschema.ArticleDeletedMessage) error {
 	conn, err := amqp.Dial(env.Get().RabbitURL)
 	if err != nil {

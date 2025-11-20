@@ -41,8 +41,6 @@ func deleteArticle(c *gin.Context) {
 		return
 	}
 
-	// Notify other services (e.g., Questions) that this article was deleted
-	// Exchange: "article_deleted" (fanout)
 	_ = rbtpub.PublishArticleDeleted(
 		deps.Logger(),
 		&rschema.ArticleDeletedMessage{ArticleId: articleId},

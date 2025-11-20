@@ -164,7 +164,6 @@ func (i *Deps) ArticleDeletedPublisher() rschema.ArticleDeletedPublisher {
 		return i.CurrArtDeletedPub
 	}
 
-	// Pre-declare a fanout exchange used to broadcast article deletion events
 	i.CurrArtDeletedPub, _ = rbt.NewRabbitPublisher[*rschema.ArticleDeletedMessage](
 		rbt.RbtLogger(env.Get().FluentURL, "cataloggo", i.Logger().CorrelationId()),
 		env.Get().RabbitURL,
